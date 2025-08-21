@@ -1,0 +1,607 @@
+
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+   
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <!--fim do bootstrap-->
+    <link rel="stylesheet" href="{% static 'css/dashbord.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <!--Graficos-->
+
+
+
+    <title>Dashbord</title>
+</head>
+<style>
+    h5, h6{
+        color: grey;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 30px;
+    }
+    p{
+        color: black;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 25px;
+    }
+    a{
+        text-decoration: none;
+        font-size: 25px;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        color: black;
+
+    }
+    a:hover{
+        color: red;
+        font-size: 30px;
+        transition: 3s;
+    }
+</style>
+<body style="background-color: black;margin: 0px;">
+    <!--Aqui e o modal pra Deposito.-->
+        <div class="modal fade" tabindex="-1" id="Deposito" aria-labelledby="Deposito" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Deposito">Deposito</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Deposito' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form=group">
+                                <label for="">Infomer o valor a depositar.</label>
+                                <input class="form-control" type="number" name="Dep" id="Dep" placeholder="0.00">
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Gerar boleoto</button>
+                            <br>
+                            <label for="" style="font-size: x-small;">Ainda sem poder gerar boleto</label>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--Aqui e o fim do  modal pra Deposito.-->
+
+
+    <!--Aqui começa a parte do modal do Pagar-->
+        <div class="modal fade" tabindex="-1" id="Pagar" aria-labelledby="Pagar" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Pagar"> Pagar </h1>
+                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Pagar' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Informe o boleto</label>
+                                <input type="text" class="form-control" aria-describedby="codigo de barras" name="Boleto">
+                                <label for="" style="font-size: x-small;">Ainda nao esta funcionando o boleto</label>
+                            </div>    
+                                <button type="submit" class="btn btn-primary"> Confirma</button>
+                            
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--Aqui termina a parte do modal pagar-->
+
+
+    <!--Aqui começa a parte do modal de trasferencia trasferencia-->
+        <div class="modal fade" tabindex="-1" id="Transferencia" aria-labelledby="Transferencia" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Trasferencia">Trasferencia</h1>
+                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Confirmar' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Numero da conta para trasfereir</label>
+                                <input type="number" class="form-control" name="Conta" >
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="">Valor da trasferencia</label>
+                                <input type="number" class="form-control" name="Trasf" id="Trasf" placeholder="0.00">
+                            </div>
+                            <button type="submit" class="btn btn-primary">transferir</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--Aqui termina a parde do modal de trasferencia-->
+
+    <!--Aqui começa a parte do modal do PIX-->
+
+        <!--Aqui e a parte onde faz a criação da chave pix-->
+            <div class="modal fade" tabindex="-1" id="Criar_pix" aria-labelledby="Crir_pix" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-title">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="Criar_pix">Criar chave pix</h1>
+                                <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{% url 'Criar_pix' %}" method="post">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="">Criar chave pix</label>
+                                    <input type="text" class="form-control" name="Chave" id="">
+                                    <label for="" style="font-size: xx-small;" >Pode ser email ou numero de telefone</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" aria-label="close"  >Fechar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!-- Aqui e o fim da parte da criação do pix-->
+
+        <div class="modal fade" tabindex="-1" id="Pix" aria-labelledby="Pix" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Pix">Pix</h1>
+                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Confirmar_pix' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">A chave pix</label>
+                                <input type="text" class="form-control" name="Chave" id="">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for=""> Valor</label>
+                                <input type="number" class="form-control" name="Valor" id="">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Criar_pix"  >Criar chave Pix</button>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="close"  >Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--Aqui e a parte do fim do modal do pix-->
+    <!-- Aqui a parte que inicia o modal da caxinha-->
+        <div class="modal fade" tabindex="-1" id="Caxinha" aria-labelledby="Caxinha" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Caxinha">Caxinha</h1>
+                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Caxinha' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Nome da Caxinha</label>
+                                <input type="text" class="form-control" name="Nome_caxinha" >
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <label for="">Valor</label>
+                                <input type="number" class="form-control" name="Valor">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="close" >Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Aqui e o fim da parte do modal da caxinha-->
+    <!-- Aqui e o começo do inicio do modal do investir-->
+    <div class="modal fade" tabindex="-1" id="Transferencia" aria-labelledby="Transferencia" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="Trasferencia">Trasferencia</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'Confirmar' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Numero da conta para trasfereir</label>
+                            <input type="number" class="form-control" name="Conta" >
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Valor da trasferencia</label>
+                            <input type="number" class="form-control" name="Trasf" id="Trasf" placeholder="0.00">
+                        </div>
+                        <button type="submit" class="btn btn-primary">transferir</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" aria-label="close" >Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--Aqui termina a parde do modal de trasferencia-->
+
+<!--Aqui começa a parte do modal do PIX-->
+
+    <!--Aqui e a parte onde faz a criação da chave pix-->
+        <div class="modal fade" tabindex="-1" id="Criar_pix" aria-labelledby="Crir_pix" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-title">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="Criar_pix">Criar chave pix</h1>
+                            <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{% url 'Criar_pix' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="">Criar chave pix</label>
+                                <input type="text" name="Chave" id="">
+                                <label for="" class="form-control" style="font-size: xx-small;" >Pode ser email ou numero de telefone</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" >Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- Aqui e o fim da parte da criação do pix-->
+
+    <div class="modal fade" tabindex="-1" id="Pix" aria-labelledby="Pix" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="Pix">Pix</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'Confirmar_pix' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">A chave pix</label>
+                            <input type="text" class="form-control" name="Chave" id="">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for=""> Valor</label>
+                            <input type="number" class="form-control" name="Valor" id="">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Criar_pix"  >Criar chave Pix</button>
+                    <button type="button" class="btn btn-danger"  data-bs-dismiss="modal" aria-label="close"  >Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--Aqui e a parte do fim do modal do pix-->
+<!-- Aqui a parte que inicia o modal da Investir-->
+    <div class="modal fade" tabindex="-1" id="Investir" aria-labelledby="Investir" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="Investir">Investir</h1>
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'Investir' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="">Escolha seu investimento</label>
+                            <select class="form-control" name="Tipo" id="">
+                                <option value="CDB">CDB</option>
+                                <option value="Tesouro Direto">Tesouro Direto</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Quanto tempo de Investimento</label>
+                            <select class="form-control"  name="Datas" id="">
+                                <option value="1" >1 Ano</option>
+                                <option value="3">3 Anos</option>
+                                <option value="5">5 Anos</option>
+                            </select>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Quanto quer investir</label>
+                            <input type="number" class="form-control" name="Valor" id="">
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label for="">Quanto Porcento:</label>
+                            <select class="form-control" name="Porcentagem" id="">
+                                <option value="100">100%</option>
+                                <option value="105">105%</option>
+                                <option value="115">115%</option>
+                            </select>
+                        </div>
+                        <br>
+                        <button class="btn btn-primary" type="submit">Enviar</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="close" >Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Aqui e o fim do modal de investir-->
+<!---->
+    <!-- Aqui a parte que inicia o modal da caixinha para depositar-->
+    <div class="modal fade" tabindex="-1" id="Caixa_deposito" aria-labelledby="Caixa_deposito" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-title">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="Caixa_deposito">Caixinha p</h1>
+
+                        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                     <form action="{% url 'Caixinha_dep' %}" method="post" class="formLogin">
+                    <h5 class="card-title">Caixinha Deposito </h5>
+
+                    {% csrf_token %}
+                         <div class="form-group">
+                            <input type="hidden" name="Caixinha" id="input-id" placeholder="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="">Valor</label>
+                            <input class="form-control" type="number" name="Valor" id="" >
+                        </div>
+
+
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="close" >Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('Caixa_deposito');
+        modal.addEventListener('show.bs.modal',function(event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+
+            document.getElementById('input-id').value = id;
+        });
+
+
+    </script>
+    <!-- Aqui e o fim do modal de investir-->
+
+<!---->
+    <div class="container">
+
+        <nav class="navbar justify-content-between">
+           <a href="" class="navbar-brand">
+            {% for con in cliente %}
+                <img src="{{ con.Img.url }}" alt="" srcset="" width="55px">
+               <p style="color: snow;"> {{user.username}}</p>
+            {% endfor %}
+           </a>
+
+                {% for con in cliente %}
+                    <p style="color: snow;">Saldo: R${{con.Saldo}}</p>
+                {% endfor %}
+            <a href="{% url 'Sair' %}" style="color: snow;">Sair</a>
+        </nav>
+
+        {% for con in cliente%}
+            <p style="color: snow;">Numero da conta: {{con.Conta}}</p>
+        {% endfor %}
+
+    </div>
+    <h2>Fluxo de Entrada de Dinheiro</h2>
+        <div class=" fc_desc" >
+            {% for Fin in Con_Financeiro %}
+                <div class="card col" style="width: 550px;">
+                    <div class="card-body" >
+                        <h5 class="card-title">{{Fin.Descricao}}</h5>
+                        <h6 class="card-subtitle mb-2 text-body-socondary">{{Fin.Tipo}}</h6>
+                        <p class="card-text">Data: {{Fin.Data}}</p>
+                        <p class="card-text">Valor: R${{Fin.Valor}}</p> 
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    
+   
+
+
+        <h3 style="color: white;">Funçoes</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Deposito">Deposito</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Pagar">Pagar</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Caxinha">Criar Caixinha</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Pix">Pix</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Investir">Investimento</button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Transferencia">Trasferencia</button>
+
+       <br>
+    <style>
+        .Bs_desc{
+            padding: 25px;
+            display: flex;
+            overflow-y: scroll;
+            white-space: nowrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .fc_desc{
+            padding: 15px;
+            display:grid;
+            grid-template-columns:20% 20% 20% 20% 20% 20% 20% ;
+            overflow-y: scroll;
+            white-space: nowrap;
+            gap: 5px;
+            justify-content: center;
+        }
+        .img-banc {
+            width: 600px;
+             white-space: nowrap;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    
+       
+    </style>
+    <br>
+    <h2>Caixinhas</h2>
+        <div class="row">
+            {% for Caixinha in Con_pix %}
+                <div class="card col" style="width: 8rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{Caixinha.Caxinha}}</h5>
+                        <p class="card-text">Data: {{Caixinha.Datas}}</p>
+                        <p class="card-text">Valor: R${{Caixinha.Valor}}</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#Caixa_deposito"  data-id="{{ Caixinha.id }}"  >Deposito</button>
+                        <a class="btn btn-danger" style="color:white" href="{% url 'Retirada' Caixinha.id %}">Sacar</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    <br>
+    <br>
+    <h2>Investimento</h2>
+        <div class="row">
+            {% for Investir in Con_invest %}
+                <div class="card col" style="width: 8rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{Investir.Invest}}</h5>
+                        <p class="card-text">Data: {{Investir.Datas}}</p>
+                        <p class="card-text">Valor: R${{Investir.Valor}}</p>
+
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    <section class="Bs_desc">
+        <div>
+            <img class="img-banc" src="{% static 'imagem/1.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/2.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/3.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/4.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/5.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/6.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/7.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/8.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/9.jpg' %}" alt="" srcset="">
+        </div>
+        <div>
+            <img class="img-banc" src="{% static 'imagem/10.jpg' %}" alt="" srcset="">
+        </div>
+            
+    
+        
+    </section>
+    
+    
+  
+
+
+</body>
+</html>

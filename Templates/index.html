@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
+    <title>Seth Banco</title>
+</head>
+<style>
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+       background-color: #636161;
+    }
+    li{
+        float: left;
+    }
+    li a{
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    li a:hover:not(.active){
+        background-color: #636161;
+        
+    }
+
+    .active{
+        background-color: #004129;
+    }
+    .mybank{
+        display: none;
+    }
+    img{
+        width: 150%;
+        margin-left: -205px;
+    }
+   
+    .img_set{
+        width: 80%;
+        margin-left: 40px;
+    }
+
+    .flex_div{
+        display: flex;
+        padding: 0px;
+    }
+    .flex_div > div{
+        font-family: 'Times New Roman', Times, serif;
+        color: rgb(0, 0, 0);
+        font-size: 30px;
+    }
+    .Ps_{
+        float: left;
+    }
+
+    .Ps_ p :hover{
+        color: green;
+        font-size: 60px;
+    }
+    .H2_{
+        background-color: rgb(83, 83, 83);
+        color: red;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        font-size: 35px;
+        text-align: center;
+
+    }
+    .H2_:hover{
+        font-size: 45px;
+    }
+
+
+    
+    .flex_fot{
+        display: grid;
+        column-gap: 50px;
+        grid-template-columns: auto auto ;
+        padding: 10px;
+    }
+    .flex_fot > div{
+        font-family: 'Times New Roman', Times, serif;
+        color: rgb(0, 0, 0);
+        font-size: 30px;
+    }
+
+    input[type=text],select{
+        width: 100%;
+        padding: 12px, 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;            
+    }
+    input[type=tel]{
+        width: 100%;
+        padding: 12px, 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;            
+    }
+    input[type=email]{
+        width: 100%;
+        padding: 12px, 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;            
+    }
+    input[type=submit] {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .div_form{
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+    }
+
+</style>
+<body>
+    <ul>
+        <li><a href="">home</a></li>
+        <li><a href="#new">news</a></li>
+        <li><a href="">contatos</a></li>
+        <li style="float: right;"><a href="{% url 'Login' %}" target="_blank" class="active">Login</a></li>
+        <li style="float: right;"><a href="{% url 'Cadastro' %}" target="_blank" class="active">Cadastro</a></li>
+    </ul>
+
+ 
+    <div class="w3-content w3-display-container" >
+        <img class="mybank" src="{% static 'imagem/1.jpg' %}" alt="" srcset="">
+        <img class="mybank" src="{% static 'imagem/2.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/3.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/4.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/5.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/6.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/7.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/8.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/9.jpg' %}" alt="">
+        <img class="mybank" src="{% static 'imagem/10.jpg' %}" alt="">
+    </div>
+
+    <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094</button>
+    <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095</button>
+    
+
+    <script>
+        var slideIndex = 1;
+        showDivs(slideIndex)
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+        
+        function showDivs(n){
+            var i;
+            var x = document.getElementsByClassName('mybank');
+            if(n>x.length){slideIndex = 1}
+            if (n<1) {slideIndex = x.length}
+            for (i = 0;i<x.length; i++){
+                x[i].style.display = 'none';
+            }
+            x[slideIndex-1].style.display = 'block'
+        }
+
+
+       
+    </script>
+
+    <br>
+    <br>
+    <h2 id="new" class="H2_">Venha Conhecer sobres nossos beneficios</h2>
+    <section class="flex_div">
+        <div >
+            <img class="img_set" src="{% static 'imagem/teste.jpg'  %}" alt="" >
+        </div>
+        <div class="Ps_" >
+            <h1>Vantagens do Banco Seth</h1>
+            <p>Emprestimo de ate 100 mil</p>
+                
+            <p>Parcelamento em ate 48x</p>
+               
+            <p>Auxlio para quem quer começar Investir</p>
+               
+            <p>Portabilidade com todos os bancos</p>
+
+            <p>Cartão aprovado em 24 horas</p>
+
+            <p>Converção de Real para Dolar e de Dolar para Real</p>
+
+            <p>Financiamento de Veiculos e Casa</p>
+            
+        </div>
+    </section>
+    <br>
+    <br>
+</body>
+<footer>
+    <h2 class="H2_">contatos</h2>
+    <section class="flex_fot" style="background-color: black;">
+        <div class="Ps_" style="color: white;">
+            <p>Telefone (11) 98765-4132</p>
+            <p>Email: Sethbanco.gmail.com.br</p>
+            <p>Endereço: Rua: Tanatons numero:467</p>
+            
+        </div>
+        <div class="div_form">
+            <form action="">
+                <h1>Trabalhe Comnosco</h1>
+                
+                <label for="">Nome:</label>
+                <br>
+                <input type="text">
+                
+                
+                <label for="">Telefone</label>
+                <br>
+                <input type="tel">
+                
+                <br>
+                <label for="">Email</label>
+                <br>
+                <input type="email">
+                
+                
+                <h4>Cargo Desejado</h4>
+                <select name="" id="">
+                    <option value="">Tecnico de Tecnologias</option>
+                    <option value="">Auxilar de marketing</option>
+                    <option value="">Call Senter</option>
+                </select>
+                
+                <input type="submit" value="Enviar">
+            </form>
+        </div>
+    </section>
+</footer>
+</html>
